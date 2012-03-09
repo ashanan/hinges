@@ -22,7 +22,7 @@ cut_rows = int(math.floor(hinge_height / (cut_length + gap)))
 # [layer.add_line(svgcuts.Line(svgcuts.Point(n*(kerf + cut_distance), 0),svgcuts.Point((n+1)*kerf + n*cut_distance,0))) for n in range(0,cut_columns)]
 
 for x in range(0, cut_columns):
-    for y in range(0, cut_rows - 1):
+    for y in range(0, cut_rows):
         if cut_length == offset_cut_length:
             cut_length *= 2
 
@@ -31,10 +31,9 @@ for x in range(0, cut_columns):
         elif y != 0:
             offset = -offset_cut_length
 
-        if y == 0 and x % 2 == 1:
+        if (y == 0 or y == cut_rows) and x % 2 == 1:
             cut_length = offset_cut_length
 
-        #print "(%d, %d) offset: %f" % (x, y, offset)
         upperLeftPoint = svgcuts.Point(x * (kerf + cut_distance), y * (cut_length + gap) + offset)
         upperRightPoint = svgcuts.Point((x+1)*kerf + x*cut_distance, y * (cut_length + gap) + offset)
 
@@ -45,7 +44,18 @@ for x in range(0, cut_columns):
         layer.add_line(svgcuts.Line(upperRightPoint, lowerRightPoint))
         layer.add_line(svgcuts.Line(lowerRightPoint, lowerLeftPoint))
         layer.add_line(svgcuts.Line(lowerLeftPoint, upperLeftPoint))
-    #else:
-       # print "else (%d, %d)" % (x, y)
+    else:
+        if x % 2 == 1:
+            y += 1
+            upperLeftPoint = svgcuts.Point(x * (kerf + cut_distance), y * (cut_length + gap) + offset)
+            upperRightPoint = svgcuts.Point((x+1)*kerf + x*cut_distance, y * (cut_length + gap) + offset)
+
+            lowerLeftPoint = svgcuts.Point(x * (kerf + cut_distance), (y + 1) * cut_length + (y-1) * gap + offset - offset_cut_length)
+            lowerRightPoint = svgcuts.Point((x + 1)*kerf + x*cut_distance, (y + 1) * cut_length + (y-1) * gap + offset - offset_cut_length)
+
+            layer.add_line(svgcuts.Line(upperLeftPoint, upperRightPoint))
+            layer.add_line(svgcuts.Line(upperRightPoint, lowerRightPoint))
+            layer.add_line(svgcuts.Line(lowerRightPoint, lowerLeftPoint))
+            layer.add_line(svgcuts.Line(lowerLeftPoint, upperLeftPoint))
 
 layer.write("test.svg")

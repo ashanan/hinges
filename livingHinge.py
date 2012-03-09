@@ -22,10 +22,6 @@ layer = svgcuts.Layer(hinge_width, hinge_height)
 cut_columns = int(math.floor(hinge_width / (kerf + cut_distance)))
 cut_rows = int(math.floor(hinge_height / (cut_length + gap)))
 
-#[ svgcuts.Point(n*(kerf + cut_distance), (n+1)*kerf + n*cut_distance) for n in range(0,cut_columns)]
-# [ svgcuts.Line(svgcuts.Point(n*(kerf + cut_distance),0), svgcuts.Point((n+1)*kerf + n*cut_distance),0) for n in range(0,cut_columns)]
-# [layer.add_line(svgcuts.Line(svgcuts.Point(n*(kerf + cut_distance), 0),svgcuts.Point((n+1)*kerf + n*cut_distance,0))) for n in range(0,cut_columns)]
-
 for x in range(0, cut_columns):
     for y in range(0, cut_rows):
         if cut_length == offset_cut_length:

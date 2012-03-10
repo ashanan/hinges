@@ -3,13 +3,13 @@ import math
 
 class Hinge(object):
     def __init__(self, width, height, cut_distance, cut_length, kerf, gap):
-        self.width = width
-        self.height = height  
-        self.cut_distance = cut_distance
-        self.cut_length = cut_length
-        self.kerf = kerf
-        self.gap = gap
-        self.offset_cut_length = cut_length / 2
+        self.width = width                       #bounding width of the hinge
+        self.height = height                     #bounding height of the hinge
+        self.cut_distance = cut_distance         #horizontal distance between cuts
+        self.cut_length = cut_length             #length of a normal cut
+        self.kerf = kerf                         #width of individual cuts
+        self.gap = gap                           #vertical distance between cuts
+        self.offset_cut_length = cut_length / 2  #length of offset cuts in the first and last rows of cuts
         self.layer = None
 
     def __eq__(self, other):

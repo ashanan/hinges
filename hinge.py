@@ -17,13 +17,13 @@ class Hinge(object):
 
     def render(self):
         if self.layer == None:
-            self.layer = svgcuts.Layer(self.width, self.height)
+            self.layer = svgcuts.Layer(self.width, self.height, "mm")
             self.prepare_hinge()
         return self.layer.render()
 
     def write(self, filename):
         if self.layer == None:
-            self.layer = svgcuts.Layer(self.width, self.height)
+            self.layer = svgcuts.Layer(self.width, self.height, "mm")
             self.prepare_hinge()
         return self.layer.write(filename)
         

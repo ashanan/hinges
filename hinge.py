@@ -2,7 +2,7 @@ import svgcuts
 import math
 
 class Hinge(object):
-    def __init__(self, width, height, cut_distance, cut_length, kerf, gap):
+    def __init__(self, width, height, cut_distance, cut_length, kerf, gap, unit="mm"):
         self.width = width                       #bounding width of the hinge
         self.height = height                     #bounding height of the hinge
         self.cut_distance = cut_distance         #horizontal distance between cuts
@@ -10,6 +10,8 @@ class Hinge(object):
         self.kerf = kerf                         #width of individual cuts
         self.gap = gap                           #vertical distance between cuts
         self.offset_cut_length = cut_length / 2  #length of offset cuts in the first and last rows of cuts
+        self.unit = unit                         #valid units: mm, in, cm, px, empty string 
+                                                 #(see http://www.w3.org/TR/SVG/coords.html#Units for details)
         self.layer = None
 
     def __eq__(self, other):
@@ -17,13 +19,15 @@ class Hinge(object):
 
     def render(self):
         if self.layer == None:
-            self.layer = svgcuts.Layer(self.width, self.height, "mm")
+            self.layer = svgcuts.Layer(self.width, self.height)
+            self.layer.unit = self.unit
             self.prepare_hinge()
         return self.layer.render()
 
     def write(self, filename):
         if self.layer == None:
-            self.layer = svgcuts.Layer(self.width, self.height, "mm")
+            self.layer = svgcuts.Layer(self.width, self.height)
+            self.layer.unit = self.unit
             self.prepare_hinge()
         return self.layer.write(filename)
         

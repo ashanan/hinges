@@ -19,18 +19,19 @@ class Hinge(object):
 
     def render(self):
         if self.layer == None:
-            self.layer = svgcuts.Layer(self.width, self.height)
-            self.layer.unit = self.unit
-            self.prepare_hinge()
+            self.prepare_layer()
         return self.layer.render()
 
     def write(self, filename):
         if self.layer == None:
+            self.prepare_layer()
+        return self.layer.write(filename)
+        
+    def prepare_layer(self):
             self.layer = svgcuts.Layer(self.width, self.height)
             self.layer.unit = self.unit
             self.prepare_hinge()
-        return self.layer.write(filename)
-        
+
     def prepare_hinge(self):
         cut_columns = int(math.floor(self.width / (self.kerf + self.cut_distance)))
         cut_rows = int(math.floor(self.height / (self.cut_length + self.gap)))
